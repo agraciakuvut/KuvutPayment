@@ -1,0 +1,27 @@
+{
+  "name": "agraciakuvut/kuvutpayment",
+  "type": "library",
+  "description": "PHP Wrapper for the KuvutPayment API",
+  "homepage": "https://github.com/agraciakuvut/KuvutPayment",
+  "keywords": [
+    "kuvut payment",
+    "payment",
+    "kuvut"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andrés Gracia",
+      "email": "agracia@kuvut.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "agraciakuvut\\KuvutPayment\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.0.0",
+    "league/oauth2-client": "^2.2"
+  }
+}
