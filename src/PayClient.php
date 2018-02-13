@@ -7,6 +7,8 @@ use GuzzleHttp\ClientInterface as HttpClientInterface;
 
 class PayClient extends ApiClient
 {
+    const PAY_METHOD_REDSYS = 'redsys';
+    const PAY_METHOD_AMAZON = 'amazon';
 
     public function __construct($api_key, $api_secret, HttpClientInterface $httpClient = null)
     {
@@ -40,5 +42,14 @@ class PayClient extends ApiClient
         return $this->post('payment', $data);
     }
 
+    public function getDataPayment(string $pay_id, $order_id)
+    {
+        return $this->get("checkpayment/$pay_id/$order_id", []);
+    }
+
+    public function payByToken(array $data = [])
+    {
+        return $this->get("paytoken", $data);
+    }
 
 }
