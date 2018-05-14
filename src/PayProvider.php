@@ -9,20 +9,27 @@ use Psr\Http\Message\ResponseInterface;
 class PayProvider extends AbstractProvider
 {
 
-    const API_URL = 'https://payment.kuvut.com/api/1.0/';
-    //const API_URL = 'https://test.payment.kuvut.com/api/1.0/';
-
     protected $api_url;
     protected $authorize_url;
     protected $token_url;
 
-    public function __construct(array $options = [], array $collaborators = [])
+    public function __construct(array $options = [], array $collaborators = [], $customApiUrl = '')
     {
-        $this->api_url = self::API_URL;
-        $this->authorize_url = self::API_URL . 'authorize/';
-        $this->token_url = self::API_URL . 'token/';
+        if ($customApiUrl) {
+            $this->api_url = $customApiUrl;
+        } else {
+            $this->api_url = 'https://payment.kuvut.com/api/1.0/';
+        }
+
+        $this->authorize_url = $this->api_url . 'authorize/';
+        $this->token_url = $this->api_url . 'token/';
 
         parent::__construct($options, $collaborators);
+    }
+
+    public function apiUrl()
+    {
+        return $this->api_url;
     }
 
     public function getBaseAuthorizationUrl()

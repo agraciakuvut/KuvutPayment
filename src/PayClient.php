@@ -10,16 +10,22 @@ class PayClient extends ApiClient
     const PAY_METHOD_REDSYS = 'redsys';
     const PAY_METHOD_AMAZON = 'amazon';
 
-    public function __construct($api_key, $api_secret, HttpClientInterface $httpClient = null)
-    {
-        $client = new PayProvider([
-            'clientId'     => $api_key,
+    protected $client;
+
+    public function __construct(
+        $api_key,
+        $api_secret,
+        HttpClientInterface $httpClient = null,
+        string $customUrlApi = ''
+    ) {
+        $this->client = new PayProvider([
+            'clientId' => $api_key,
             'clientSecret' => $api_secret
         ], [
             'httpClient' => !empty($httpClient) ? $httpClient : new Client()
-        ]);
+        ], $customUrlApi);
 
-        $access_token = $client->getAccessToken('client_credentials');
+        $access_token = $this->client->getAccessToken('client_credentials');
         parent::__construct(
             $access_token->getToken(),
             $access_token->getExpires(),
@@ -28,8 +34,9 @@ class PayClient extends ApiClient
         );
     }
 
-    protected function getApiUrl(){
-        return PayProvider::API_URL;
+    protected function getApiUrl()
+    {
+        return $this->client->apiUrl();
     }
 
     public function getList(array $data = [])
